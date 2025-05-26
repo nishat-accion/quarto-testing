@@ -11,21 +11,25 @@ This repository contains multiple documentation projects built using [Quarto](ht
 
 ## 📦 Folder Structure
 
-my-repo/
+quarto-testing/
 ├── node-auth/
 │ ├── index.qmd
 │ ├── _quarto.yml
-│ └── docs/
+│ └── docs/ ← generated after rendering
 ├── react-login/
 │ ├── index.qmd
 │ ├── _quarto.yml
-│ └── docs/
+│ └── docs/ ← generated after rendering
 └── docs/
 ├── node-auth/
+│ └── index.html
 └── react-login/
+└── index.html
 
 
+```bash
 ## 🚀 How to View Locally
+```
 
 ```bash
 cd node-auth
@@ -35,6 +39,7 @@ quarto preview
 
 cd react-login
 quarto preview
+```
 
 📤 How to Publish to GitHub Pages
 
@@ -42,12 +47,14 @@ quarto preview
 
 ```bash
 quarto render
+```
 
 2. Copy each subproject's docs/ into the root-level docs/ directory:
 
 ```bash
 my-repo/docs/node-auth/
 my-repo/docs/react-login/
+```
 
 3. Commit and push changes:
 
@@ -55,12 +62,10 @@ my-repo/docs/react-login/
 git add .
 git commit -m "Update rendered docs"
 git push
+```
 
 4. GitHub Pages will serve them from:
+
+```bash
 https://nishat-accion.github.io/quarto-testing/
-
-
-🛠️ Requirements
-Install Quarto
-
-GitHub Pages enabled under Settings > Pages
+```
