@@ -1,0 +1,73 @@
+---
+title: "Node.js Authentication"
+format: html
+---
+
+# 🔐 Node.js Authentication with Express
+
+This guide walks through implementing authentication in a Node.js backend using **Express**, **JWT**, and **bcryptjs**.
+
+---
+
+## 📦 Setup
+
+```bash
+npm install express jsonwebtoken bcryptjs dotenv
+```
+
+## 👤 Registering a User
+```js
+const bcrypt = require("bcryptjs");
+
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Save to database
+  // ...
+});
+```
+
+## 🔐 Login and Generate JWT
+
+```js
+const jwt = require("jsonwebtoken");
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  // Retrieve user from DB
+  const user = // fetch logic...
+
+  const isMatch = await bcrypt.compare(password, user.hashedPassword);
+  if (!isMatch) return res.status(401).send("Invalid credentials");
+
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+```
+
+## 🛡 Protected Routes
+
+```js
+function authenticateToken(req, res, next) {
+  const token = req.headers["authorization"];
+  if (!token) return res.sendStatus(403);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+```
+
+## ✅ Access a Secure Route
+
+```js
+app.get("/profile", authenticateToken, (req, res) => {
+  res.send(`Welcome user ${req.user.id}`);
+});
+
+```

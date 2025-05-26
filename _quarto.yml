@@ -1,3 +1,0 @@
-project:
-  title: "quarto-testing"
-  output-dir: docs  # ✅ this line makes it render into docs/

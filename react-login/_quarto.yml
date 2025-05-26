@@ -1,0 +1,10 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "React Login Docs"
+  navbar:
+    left:
+      - file: index.qmd
+        text: Home

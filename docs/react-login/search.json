@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "React Login Workflow",
+    "section": "",
+    "text": "This guide shows how to build a basic login system using React Hooks, Context, and API integration.\n\n\n\nimport React, { useState } from \"react\";\n\nfunction LoginForm({ onLogin }) {\n  const [username, setUsername] = useState(\"\");\n  const [password, setPassword] = useState(\"\");\n\n  const handleSubmit = (e) =&gt; {\n    e.preventDefault();\n    onLogin({ username, password });\n  };\n\n  return (\n    &lt;form onSubmit={handleSubmit}&gt;\n      &lt;input value={username} onChange={e =&gt; setUsername(e.target.value)} /&gt;\n      &lt;input type=\"password\" value={password} onChange={e =&gt; setPassword(e.target.value)} /&gt;\n      &lt;button type=\"submit\"&gt;Login&lt;/button&gt;\n    &lt;/form&gt;\n  );\n}\n\n\n\nimport { createContext, useContext, useState } from \"react\";\n\nconst AuthContext = createContext();\n\nexport function AuthProvider({ children }) {\n  const [token, setToken] = useState(null);\n\n  const login = async ({ username, password }) =&gt; {\n    const res = await fetch(\"/login\", {\n      method: \"POST\",\n      headers: { \"Content-Type\": \"application/json\" },\n      body: JSON.stringify({ username, password }),\n    });\n    const data = await res.json();\n    setToken(data.token);\n  };\n\n  return (\n    &lt;AuthContext.Provider value={{ token, login }}&gt;\n      {children}\n    &lt;/AuthContext.Provider&gt;\n  );\n}\n\nexport const useAuth = () =&gt; useContext(AuthContext);\n\n\n\nimport React from \"react\";\nimport { AuthProvider, useAuth } from \"./AuthContext\";\nimport LoginForm from \"./LoginForm\";\n\nfunction App() {\n  const { login, token } = useAuth();\n\n  return token ? &lt;p&gt;Welcome!&lt;/p&gt; : &lt;LoginForm onLogin={login} /&gt;;\n}\n\nexport default function Root() {\n  return (\n    &lt;AuthProvider&gt;\n      &lt;App /&gt;\n    &lt;/AuthProvider&gt;\n  );\n}"
+  },
+  {
+    "objectID": "index.html#login-form-component",
+    "href": "index.html#login-form-component",
+    "title": "React Login Workflow",
+    "section": "",
+    "text": "import React, { useState } from \"react\";\n\nfunction LoginForm({ onLogin }) {\n  const [username, setUsername] = useState(\"\");\n  const [password, setPassword] = useState(\"\");\n\n  const handleSubmit = (e) =&gt; {\n    e.preventDefault();\n    onLogin({ username, password });\n  };\n\n  return (\n    &lt;form onSubmit={handleSubmit}&gt;\n      &lt;input value={username} onChange={e =&gt; setUsername(e.target.value)} /&gt;\n      &lt;input type=\"password\" value={password} onChange={e =&gt; setPassword(e.target.value)} /&gt;\n      &lt;button type=\"submit\"&gt;Login&lt;/button&gt;\n    &lt;/form&gt;\n  );\n}"
+  },
+  {
+    "objectID": "index.html#auth-context",
+    "href": "index.html#auth-context",
+    "title": "React Login Workflow",
+    "section": "",
+    "text": "import { createContext, useContext, useState } from \"react\";\n\nconst AuthContext = createContext();\n\nexport function AuthProvider({ children }) {\n  const [token, setToken] = useState(null);\n\n  const login = async ({ username, password }) =&gt; {\n    const res = await fetch(\"/login\", {\n      method: \"POST\",\n      headers: { \"Content-Type\": \"application/json\" },\n      body: JSON.stringify({ username, password }),\n    });\n    const data = await res.json();\n    setToken(data.token);\n  };\n\n  return (\n    &lt;AuthContext.Provider value={{ token, login }}&gt;\n      {children}\n    &lt;/AuthContext.Provider&gt;\n  );\n}\n\nexport const useAuth = () =&gt; useContext(AuthContext);"
+  },
+  {
+    "objectID": "index.html#app-component",
+    "href": "index.html#app-component",
+    "title": "React Login Workflow",
+    "section": "",
+    "text": "import React from \"react\";\nimport { AuthProvider, useAuth } from \"./AuthContext\";\nimport LoginForm from \"./LoginForm\";\n\nfunction App() {\n  const { login, token } = useAuth();\n\n  return token ? &lt;p&gt;Welcome!&lt;/p&gt; : &lt;LoginForm onLogin={login} /&gt;;\n}\n\nexport default function Root() {\n  return (\n    &lt;AuthProvider&gt;\n      &lt;App /&gt;\n    &lt;/AuthProvider&gt;\n  );\n}"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "This guide walks through implementing authentication in a Node.js backend using Express, JWT, and bcryptjs.\n\n\n\nnpm install express jsonwebtoken bcryptjs dotenv\n\n\n\nconst bcrypt = require(\"bcryptjs\");\n\napp.post(\"/register\", async (req, res) =&gt; {\n  const { username, password } = req.body;\n  const hashedPassword = await bcrypt.hash(password, 10);\n\n  // Save to database\n  // ...\n});\n\n\n\nconst jwt = require(\"jsonwebtoken\");\n\napp.post(\"/login\", async (req, res) =&gt; {\n  const { username, password } = req.body;\n\n  // Retrieve user from DB\n  const user = // fetch logic...\n\n  const isMatch = await bcrypt.compare(password, user.hashedPassword);\n  if (!isMatch) return res.status(401).send(\"Invalid credentials\");\n\n  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: \"1h\" });\n  res.json({ token });\n});\n\n\n\nfunction authenticateToken(req, res, next) {\n  const token = req.headers[\"authorization\"];\n  if (!token) return res.sendStatus(403);\n\n  jwt.verify(token, process.env.JWT_SECRET, (err, user) =&gt; {\n    if (err) return res.sendStatus(403);\n    req.user = user;\n    next();\n  });\n}\n\n\n\napp.get(\"/profile\", authenticateToken, (req, res) =&gt; {\n  res.send(`Welcome user ${req.user.id}`);\n});"
+  },
+  {
+    "objectID": "index.html#setup",
+    "href": "index.html#setup",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "npm install express jsonwebtoken bcryptjs dotenv"
+  },
+  {
+    "objectID": "index.html#registering-a-user",
+    "href": "index.html#registering-a-user",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "const bcrypt = require(\"bcryptjs\");\n\napp.post(\"/register\", async (req, res) =&gt; {\n  const { username, password } = req.body;\n  const hashedPassword = await bcrypt.hash(password, 10);\n\n  // Save to database\n  // ...\n});"
+  },
+  {
+    "objectID": "index.html#login-and-generate-jwt",
+    "href": "index.html#login-and-generate-jwt",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "const jwt = require(\"jsonwebtoken\");\n\napp.post(\"/login\", async (req, res) =&gt; {\n  const { username, password } = req.body;\n\n  // Retrieve user from DB\n  const user = // fetch logic...\n\n  const isMatch = await bcrypt.compare(password, user.hashedPassword);\n  if (!isMatch) return res.status(401).send(\"Invalid credentials\");\n\n  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: \"1h\" });\n  res.json({ token });\n});"
+  },
+  {
+    "objectID": "index.html#protected-routes",
+    "href": "index.html#protected-routes",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "function authenticateToken(req, res, next) {\n  const token = req.headers[\"authorization\"];\n  if (!token) return res.sendStatus(403);\n\n  jwt.verify(token, process.env.JWT_SECRET, (err, user) =&gt; {\n    if (err) return res.sendStatus(403);\n    req.user = user;\n    next();\n  });\n}"
+  },
+  {
+    "objectID": "index.html#access-a-secure-route",
+    "href": "index.html#access-a-secure-route",
+    "title": "Node.js Authentication",
+    "section": "",
+    "text": "app.get(\"/profile\", authenticateToken, (req, res) =&gt; {\n  res.send(`Welcome user ${req.user.id}`);\n});"
+  }
+]

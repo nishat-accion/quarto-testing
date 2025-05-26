@@ -1,0 +1,10 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Node.js Auth Docs"
+  navbar:
+    left:
+      - file: index.qmd
+        text: Home
