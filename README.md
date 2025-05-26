@@ -11,6 +11,7 @@ This repository contains multiple documentation projects built using [Quarto](ht
 
 ## 📦 Folder Structure
 
+```bash
 quarto-testing/
 ├── node-auth/
 │ ├── index.qmd
@@ -25,11 +26,10 @@ quarto-testing/
 │ └── index.html
 └── react-login/
 └── index.html
-
-
-```bash
-## 🚀 How to View Locally
 ```
+
+
+## 🚀 How to View Locally
 
 ```bash
 cd node-auth
